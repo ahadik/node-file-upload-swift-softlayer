@@ -21,7 +21,7 @@ This app assumes authentication to a Swift Object Storage using the V1 Swift API
 
   ```
   git clone https://github.com/IBM-Bluemix/node-file-upload-swift.git
-  cd node-file-upload-swift
+  cd node-file-upload-swift-softlayer
   ```
 
 2. Create a Object Storage service instance specifically for this application on SoftLayer, or other Object Storage provider that exposes the Swift API V1. You can create a SoftLayer account at [http://www.softlayer.com/](http://www.softlayer.com/) and add an Object Storage account from [control.softlayer.com](control.softlayer.com).
