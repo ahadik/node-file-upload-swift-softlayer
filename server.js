@@ -11,7 +11,7 @@ try {
 }
 catch (e) {}
 
-var appEnvOpts = vcapLocal ? {vcap:vcapLocal} : {vcap:vcapLocal};
+var appEnvOpts = vcapLocal ? {vcap:vcapLocal} : {};
 var appEnv = cfenv.getAppEnv(appEnvOpts);
 
 var container = process.env.CONTAINER || "test";
