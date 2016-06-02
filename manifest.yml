@@ -4,9 +4,9 @@ declared-services:
     label: Object-Storage
     plan: Free
 applications:
-- name: node-file-upload-swift
+- name: node-file-upload-swift-softlayer
   command: node server.js
   path: .
   memory: 1G
   services:
-  - swift-node-file-upload
+  - softlayeros

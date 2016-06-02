@@ -7,11 +7,11 @@ dotenv.load();
 
 var vcapLocal = null
 try {
-  vcapLocal = require("./vcap-local.json");
+  vcapLocal = require("./vcap-local.js");
 }
 catch (e) {}
 
-var appEnvOpts = vcapLocal ? {vcap:vcapLocal} : {};
+var appEnvOpts = vcapLocal ? {vcap:vcapLocal} : {vcap:vcapLocal};
 var appEnv = cfenv.getAppEnv(appEnvOpts);
 
 var container = process.env.CONTAINER || "test";
@@ -20,14 +20,15 @@ app.use(express.static(__dirname + "/public"));
 
 app.use(require("skipper")());
 
-var swiftCredentials = appEnv.getServiceCreds("swift-node-file-upload");
+var swiftCredentials = appEnv.getServiceCreds("softlayeros");
 
 app.get("/files/:filename", function (request, response) {
     var skipperSwift = require("skipper-openstack")();
 
     skipperSwift.read({
         credentials: swiftCredentials,
-        container: container
+        container: container,
+        version: 1
     },request.params.filename, response);
 });
 
@@ -36,7 +37,8 @@ app.get("/files", function (request, response) {
 
     skipperSwift.ls({
         credentials: swiftCredentials,
-        container: container
+        container: container,
+        version: 1
     },function (error, files) {
         if (error) {
             console.log(error);
@@ -53,7 +55,8 @@ app.post("/upload", function (request, response) {
         .upload({
           adapter: require("skipper-openstack"),
           credentials: swiftCredentials,
-          container: container
+          container: container,
+          version: 1
         }, function (err, uploadedFiles) {
             if (err) {
                 console.log(err);
@@ -71,8 +74,9 @@ app.listen(port, function() {
     console.log('listening on port', port);
 
     var skipperSwift = require("skipper-openstack")();
-    skipperSwift.ensureContainerExists(swiftCredentials, container, function (error) {
+    skipperSwift.ensureContainerExists(swiftCredentials, container, 1, function (error) {
       if (error) {
+        console.log(error)
         console.log("unable to create default container", container);
       }
       else {
